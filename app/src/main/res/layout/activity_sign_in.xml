@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/loginbg1"
+    android:background="@drawable/login_bg"
     android:alpha="0.8"
     android:id="@+id/signin"
     tools:context=".SignInActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <!-- Logo -->
         <ImageView
@@ -31,12 +32,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/horse"
-            android:layout_toEndOf="@id/horse"
             android:layout_marginStart="16dp"
             android:layout_marginTop="33dp"
-            android:text="Horse Racing"
+            android:layout_toEndOf="@id/horse"
             android:fontFamily="sans-serif-black"
-            android:textColor="#FBA95C"
+            android:text="Horse Racing"
+            android:textColor="#000000"
             android:textSize="50sp"
             android:textStyle="bold" />
 
@@ -46,11 +47,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/horse"
-            android:layout_marginTop="32dp"
             android:layout_marginLeft="50dp"
+            android:layout_marginTop="32dp"
             android:layout_marginRight="50dp"
             android:background="@drawable/edit_text_background"
             android:hint="User Name"
+            android:textColorHint="#000000"
             android:inputType="textPersonName"
             android:padding="10dp"
             android:textSize="24sp" />
@@ -61,11 +63,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/editTextUser"
-            android:layout_marginTop="16dp"
             android:layout_marginLeft="50dp"
+            android:layout_marginTop="16dp"
             android:layout_marginRight="50dp"
             android:background="@drawable/edit_text_background"
             android:hint="Password"
+            android:textColorHint="#000000"
             android:inputType="textPassword"
             android:padding="10dp"
             android:textSize="24sp" />
@@ -78,14 +81,14 @@
             android:layout_below="@id/editTextPassword"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="32dp"
-            android:padding="10dp"
             android:background="@drawable/button_gradient_border"
+            android:clickable="true"
             android:fontFamily="monospace"
+            android:padding="10dp"
             android:text="Login"
             android:textColor="#EF5F5D5D"
             android:textSize="30sp"
-            android:textStyle="bold"
-            android:clickable="true" />
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
