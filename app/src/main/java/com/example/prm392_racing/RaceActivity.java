@@ -22,6 +22,25 @@ public class RaceActivity extends AppCompatActivity {
     // Dùng float để tính tiến độ chính xác hơn
     private float pos1 = 0, pos2 = 0, pos3 = 0;
 
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_race);
+//
+//        horse1 = findViewById(R.id.horse1);
+//        horse2 = findViewById(R.id.horse2);
+//        horse3 = findViewById(R.id.horse3);
+//        btnStart = findViewById(R.id.btnStart);
+//
+//        btnStart.setOnClickListener(v -> {
+//            if (!isRacing) {
+//                resetRace();
+//                startRace();
+//            }
+//        });
+//    }
+
+    // Này tui sửa lại để nhận đc data
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +50,20 @@ public class RaceActivity extends AppCompatActivity {
         horse2 = findViewById(R.id.horse2);
         horse3 = findViewById(R.id.horse3);
         btnStart = findViewById(R.id.btnStart);
+
+        // 👉 Nhận dữ liệu từ BetActivity
+        int betHorse1 = getIntent().getIntExtra("bet_horse1", 0);
+        int betHorse2 = getIntent().getIntExtra("bet_horse2", 0);
+        int betHorse3 = getIntent().getIntExtra("bet_horse3", 0);
+        int balance   = getIntent().getIntExtra("balance", 0);
+
+        // Test: hiển thị dữ liệu nhận được
+        Toast.makeText(this,
+                "Balance: " + balance +
+                        " | Ngựa1: " + betHorse1 +
+                        " | Ngựa2: " + betHorse2 +
+                        " | Ngựa3: " + betHorse3,
+                Toast.LENGTH_LONG).show();
 
         btnStart.setOnClickListener(v -> {
             if (!isRacing) {
