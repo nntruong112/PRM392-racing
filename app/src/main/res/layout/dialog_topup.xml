@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@drawable/bg_dialog"
+    android:gravity="center_horizontal">
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bạn muốn nạp bao nhiêu?"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="15dp"/>
+
+    <!-- Ô nhập số tiền -->
+    <EditText
+        android:id="@+id/edtTopUpAmount"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="Nhập số tiền"
+        android:inputType="number"
+        android:gravity="center"
+        android:background="@android:drawable/editbox_background"/>
+
+    <!-- Nút xác nhận -->
+    <Button
+        android:id="@+id/btnConfirmTopUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Xác nhận"
+        android:layout_marginTop="20dp"/>
+
+</LinearLayout>

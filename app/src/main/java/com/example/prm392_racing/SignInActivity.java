@@ -61,7 +61,7 @@ public class SignInActivity extends AppCompatActivity {
             Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
 
             // Chuyển sang màn hình khác (ví dụ MainActivity)
-            Intent intent = new Intent(SignInActivity.this, RaceActivity.class);
+            Intent intent = new Intent(SignInActivity.this, BetActivity.class);
             startActivity(intent);
             finish(); // Đóng màn hình đăng nhập để không quay lại khi nhấn back
         } else {
