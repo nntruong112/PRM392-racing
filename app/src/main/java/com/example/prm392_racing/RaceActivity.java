@@ -38,6 +38,9 @@ public class RaceActivity extends AppCompatActivity {
     // vị trí
     private float pos1 = 0, pos2 = 0, pos3 = 0;
 
+    private boolean boostEnabled = false;        // set via Intent or UI
+    private float speedMult = 1.0f;
+
     // trạng thái hoàn thành
     private boolean finished1 = false, finished2 = false, finished3 = false;
 

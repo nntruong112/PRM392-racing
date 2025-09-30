@@ -1,6 +1,7 @@
 package com.example.prm392_racing;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -21,6 +22,8 @@ public class SignInActivity extends AppCompatActivity {
     // Hardcode tài khoản hợp lệ
     private final String VALID_USERNAME = "group3";
     private final String VALID_PASSWORD = "123456";
+
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,12 @@ public class SignInActivity extends AppCompatActivity {
 
         if (username.equals(VALID_USERNAME) && password.equals(VALID_PASSWORD)) {
             Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+
+            mediaPlayer = MediaPlayer.create(this, R.raw.login);
+            mediaPlayer.setOnCompletionListener(mp -> {
+                mp.release();
+            });
+            mediaPlayer.start();
 
             // Chuyển sang màn hình khác (ví dụ MainActivity)
             Intent intent = new Intent(SignInActivity.this, BetActivity.class);
