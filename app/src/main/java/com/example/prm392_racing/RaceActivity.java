@@ -147,7 +147,9 @@ public class RaceActivity extends AppCompatActivity {
         new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setTitle("🏆 Kết quả cuộc đua")
                 .setItems(items, null) // danh sách kết quả
-                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                .setPositiveButton("OK", (dialog, which) -> {
+                    dialog.dismiss();
+                })
                 .show();
     }
 
