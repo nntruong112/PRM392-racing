@@ -64,6 +64,7 @@ public class RaceActivity extends AppCompatActivity {
         btnRestart = findViewById(R.id.btnRestart);
 
         Intent intent = getIntent();
+
         tvBet1.setText(String.valueOf(intent.getIntExtra("bet_horse1", 0)) + "$");
         tvBet2.setText(String.valueOf(intent.getIntExtra("bet_horse2", 0)) + "$");
         tvBet3.setText(String.valueOf(intent.getIntExtra("bet_horse3", 0)) + "$");
@@ -159,17 +160,62 @@ public class RaceActivity extends AppCompatActivity {
         results.sort(Comparator.comparingDouble(r -> r.time));
 
         // Tạo danh sách hiển thị
-        String[] items = new String[results.size()];
+        StringBuilder resultText = new StringBuilder();
         for (int i = 0; i < results.size(); i++) {
-            items[i] = "Top " + (i + 1) + ": " + results.get(i).name;
+            resultText.append("Top ").append(i + 1).append(": ")
+                    .append(results.get(i).name).append("\n");
+        }
+
+        // Lấy ngựa thắng
+        String winner = results.get(0).name;
+
+        // Nhận dữ liệu cược + odds từ intent
+        int bet1 = getIntent().getIntExtra("bet_horse1", 0);
+        int bet2 = getIntent().getIntExtra("bet_horse2", 0);
+        int bet3 = getIntent().getIntExtra("bet_horse3", 0);
+
+        double odd1 = getIntent().getDoubleExtra("odd_1", 1.0);
+        double odd2 = getIntent().getDoubleExtra("odd_2", 1.0);
+        double odd3 = getIntent().getDoubleExtra("odd_3", 1.0);
+
+        int balance = getIntent().getIntExtra("balance", 0);
+        int payout = 0;
+
+        if (winner.equals("Ngựa 1") && bet1 > 0) {
+            payout = (int) (bet1 * (odd1 - 1));
+            balance += payout;
+        } else if (winner.equals("Ngựa 2") && bet2 > 0) {
+            payout = (int) (bet2 * odd2);
+            balance += payout;
+        } else if (winner.equals("Ngựa 3") && bet3 > 0) {
+            payout = (int) (bet3 * (odd3 - 1));
+            balance += payout;
+        }
+
+        resultText.append("\n");
+
+        if (payout > 0) {
+            resultText.append("✅ Bạn thắng cược!\n")
+                    .append("Nhận về: ").append(payout).append("$\n")
+                    .append("Số dư mới: ").append(balance).append("$");
+        } else {
+            resultText.append("❌ Bạn thua cược!\n")
+                    .append("Số dư còn: ").append(balance).append("$");
         }
 
         // Tạo dialog popup
+        int finalBalance = balance;
         new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setTitle("🏆 Kết quả cuộc đua")
-                .setItems(items, null) // danh sách kết quả
+                .setMessage(resultText.toString())
                 .setPositiveButton("OK", (dialog, which) -> {
                     dialog.dismiss();
+
+                    Intent resultIntent = new Intent(RaceActivity.this, BetActivity.class);
+                    resultIntent.putExtra("winningsBalance", finalBalance);
+                    setResult(RESULT_OK, resultIntent);
+
+                    finish();
                 })
                 .show();
     }

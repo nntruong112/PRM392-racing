@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -27,6 +30,8 @@ public class BetActivity extends AppCompatActivity {
     private EditText edtHorse1, edtHorse2, edtHorse3;
 
     private int balance = 1000; // số dư ban đầu
+    private int winningsBalance;
+    private ActivityResultLauncher<Intent> raceLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,26 +80,55 @@ public class BetActivity extends AppCompatActivity {
 
         btnTopUp.setOnClickListener(v -> showTopUpDialog());
 
+        raceLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        int newBalance = result.getData().getIntExtra("winningsBalance", balance);
+                        balance = newBalance;
+                        updateBalance();
+                    }
+                }
+        );
+
         btnPlay.setOnClickListener(v -> {
+
+            int bet1 = cbHorse1.isChecked() && !edtHorse1.getText().toString().isEmpty()
+                    ? Integer.parseInt(edtHorse1.getText().toString()) : 0;
+
+            int bet2 = cbHorse2.isChecked() && !edtHorse2.getText().toString().isEmpty()
+                    ? Integer.parseInt(edtHorse2.getText().toString()) : 0;
+
+            int bet3 = cbHorse3.isChecked() && !edtHorse3.getText().toString().isEmpty()
+                    ? Integer.parseInt(edtHorse3.getText().toString()) : 0;
+
+            int totalBet = bet1 + bet2 + bet3;
+
+            if (totalBet == 0) {
+                Toast.makeText(this, "Bạn chưa đặt cược!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (totalBet > balance) {
+                Toast.makeText(this, "Không đủ số dư để đặt cược!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            balance -= totalBet;
+
+            updateBalance();
+
             Intent intent = new Intent(BetActivity.this, RaceActivity.class);
 
-            // truyền số tiền cược của từng ngựa (0 nếu không cược)
-            intent.putExtra("bet_horse1", cbHorse1.isChecked() && !edtHorse1.getText().toString().isEmpty()
-                    ? Integer.parseInt(edtHorse1.getText().toString()) : 0);
-
-            intent.putExtra("bet_horse2", cbHorse2.isChecked() && !edtHorse2.getText().toString().isEmpty()
-                    ? Integer.parseInt(edtHorse2.getText().toString()) : 0);
-
-            intent.putExtra("bet_horse3", cbHorse3.isChecked() && !edtHorse3.getText().toString().isEmpty()
-                    ? Integer.parseInt(edtHorse3.getText().toString()) : 0);
-
+            intent.putExtra("bet_horse1", bet1);
+            intent.putExtra("bet_horse2", bet2);
+            intent.putExtra("bet_horse3", bet3);
             intent.putExtra("odd_1", odd1);
             intent.putExtra("odd_2", odd2);
             intent.putExtra("odd_3", odd3);
-            // truyền số dư hiện tại
             intent.putExtra("balance", balance);
 
-            startActivity(intent);
+            raceLauncher.launch(intent);
         });
     }
 
