@@ -97,9 +97,9 @@ public class RaceActivity extends AppCompatActivity {
 
 
         // Load GIF động
-        Glide.with(this).asGif().load(R.drawable.horse2).into(horse1Gif);
+        Glide.with(this).asGif().load(R.drawable.horse1).into(horse1Gif);
         Glide.with(this).asGif().load(R.drawable.horse2).into(horse2Gif);
-        Glide.with(this).asGif().load(R.drawable.horse2).into(horse3Gif);
+        Glide.with(this).asGif().load(R.drawable.horse3).into(horse3Gif);
 
         // ban đầu: restart disabled
         btnRestart.setEnabled(false);
@@ -135,7 +135,7 @@ public class RaceActivity extends AppCompatActivity {
 
             // Cho phép bấm start lại
             btnStart.setEnabled(true);
-            btnRestart.setEnabled(true);
+            btnRestart.setEnabled(false);
             countdownText.setVisibility(View.GONE);
         });
 
