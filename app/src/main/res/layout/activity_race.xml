@@ -68,8 +68,8 @@
 
         <ImageView
             android:id="@+id/horse1Gif"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="start|center_vertical"/>
     </FrameLayout>
 
@@ -126,8 +126,8 @@
 
         <ImageView
             android:id="@+id/horse2Gif"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="start|center_vertical"/>
     </FrameLayout>
 
@@ -184,8 +184,8 @@
 
         <ImageView
             android:id="@+id/horse3Gif"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="start|center_vertical"/>
     </FrameLayout>
 
