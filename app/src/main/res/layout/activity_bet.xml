@@ -49,7 +49,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ngựa 1"
+            android:text="Haru Urara"
             android:textSize="16sp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"/>
@@ -97,10 +97,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ngựa 2"
-            android:textSize="16sp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"/>
+            android:layout_marginStart="10dp"
+            android:text="Special Week"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/edtHorse2"
@@ -144,11 +144,11 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ngựa 3"
-            android:textSize="16sp"
+            android:layout_height="12dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"/>
+            android:layout_marginStart="10dp"
+            android:text="Symboli Rudolf"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/edtHorse3"

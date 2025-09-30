@@ -26,7 +26,7 @@ public class RaceActivity extends AppCompatActivity {
     private SeekBar horse1, horse2, horse3;
     private ImageView horse1Gif, horse2Gif, horse3Gif;
     private Button btnStart, btnRestart;
-    private TextView countdownText, tvBet1, tvBet2, tvBet3, tvHorse1Odds, tvHorse2Odds, tvHorse3Odds;
+    private TextView countdownText, tvBet1, tvBet2, tvBet3, tvHorse1Odds, tvHorse2Odds, tvHorse3Odds, tvHorse1Name, tvHorse2Name, tvHorse3Name;
 
     private Handler handler = new Handler(Looper.getMainLooper());
     private Random random = new Random();
@@ -58,6 +58,14 @@ public class RaceActivity extends AppCompatActivity {
         horse2 = findViewById(R.id.horse2);
         horse3 = findViewById(R.id.horse3);
 
+        tvHorse1Name = findViewById(R.id.tvHorse1);
+        tvHorse2Name = findViewById(R.id.tvHorse2);
+        tvHorse3Name = findViewById(R.id.tvHorse3);
+
+        tvHorse1Name.setText("Haru Urara");
+        tvHorse2Name.setText("Special Week");
+        tvHorse3Name.setText("Symboli Rudolf");
+
         tvBet1 = findViewById(R.id.tvBet1);
         tvBet2 = findViewById(R.id.tvBet2);
         tvBet3 = findViewById(R.id.tvBet3);
@@ -82,6 +90,7 @@ public class RaceActivity extends AppCompatActivity {
         tvHorse1Odds.setText("Tỉ lệ: " + String.format("%.1f", intent.getDoubleExtra("odd_1", 0)) + "x");
         tvHorse2Odds.setText("Tỉ lệ: " + String.format("%.1f", intent.getDoubleExtra("odd_2", 0)) + "x");
         tvHorse3Odds.setText("Tỉ lệ: " + String.format("%.1f", intent.getDoubleExtra("odd_3", 0)) + "x");
+
 
         // Load GIF động
         Glide.with(this).asGif().load(R.drawable.horse2).into(horse1Gif);
@@ -171,15 +180,15 @@ public class RaceActivity extends AppCompatActivity {
                 updateGifPosition(horse3, horse3Gif, pos3);
 
                 // Kiểm tra ngựa về đích; lưu thời điểm về đích
-                checkFinishWithTime("Ngựa 1", pos1, 1);
-                checkFinishWithTime("Ngựa 2", pos2, 2);
-                checkFinishWithTime("Ngựa 3", pos3, 3);
+                checkFinishWithTime("Haru Urara", pos1, 1);
+                checkFinishWithTime("Special Week", pos2, 2);
+                checkFinishWithTime("Symboli Rudolf", pos3, 3);
 
                 // Nếu tất cả ngựa xong thì công bố kết quả
                 if (finished1 && finished2 && finished3) {
                     announceResults();
                 } else {
-                    handler.postDelayed(this, 50);
+                    handler.postDelayed(this, 60);
                 }
             }
         };
@@ -249,13 +258,13 @@ public class RaceActivity extends AppCompatActivity {
         int balance = getIntent().getIntExtra("balance", 0);
         int payout = 0;
 
-        if (winner.equals("Ngựa 1") && bet1 > 0) {
+        if (winner.equals("Haru Urara") && bet1 > 0) {
             payout = (int) (bet1 * (odd1 - 1));
             balance += payout;
-        } else if (winner.equals("Ngựa 2") && bet2 > 0) {
+        } else if (winner.equals("Special Week") && bet2 > 0) {
             payout = (int) (bet1 * (odd2 - 1));
             balance += payout;
-        } else if (winner.equals("Ngựa 3") && bet3 > 0) {
+        } else if (winner.equals("Symboli Rudolf") && bet3 > 0) {
             payout = (int) (bet3 * (odd3 - 1));
             balance += payout;
         }
