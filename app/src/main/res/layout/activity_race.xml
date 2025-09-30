@@ -26,6 +26,17 @@
         app:layout_constraintBottom_toBottomOf="@id/tvHorse1"
         app:layout_constraintStart_toEndOf="@id/tvHorse1"/>
 
+    <TextView
+        android:id="@+id/tvHorse1Odds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tỉ lệ: 3.5x"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintTop_toTopOf="@id/tvHorse1"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"/>
+
     <FrameLayout
         android:id="@+id/horse1Container"
         android:layout_width="0dp"
@@ -71,6 +82,17 @@
         app:layout_constraintTop_toTopOf="@id/tvHorse2"
         app:layout_constraintBottom_toBottomOf="@id/tvHorse2"
         app:layout_constraintStart_toEndOf="@id/tvHorse2"/>
+
+    <TextView
+        android:id="@+id/tvHorse2Odds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tỉ lệ: 3.5x"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintTop_toTopOf="@id/tvHorse2"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"/>
 
     <FrameLayout
         android:id="@+id/horse2Container"
@@ -118,6 +140,17 @@
         app:layout_constraintTop_toTopOf="@id/tvHorse3"
         app:layout_constraintBottom_toBottomOf="@id/tvHorse3"
         app:layout_constraintStart_toEndOf="@id/tvHorse3"/>
+
+    <TextView
+        android:id="@+id/tvHorse3Odds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tỉ lệ: 3.5x"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintTop_toTopOf="@id/tvHorse3"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"/>
 
     <FrameLayout
         android:id="@+id/horse3Container"

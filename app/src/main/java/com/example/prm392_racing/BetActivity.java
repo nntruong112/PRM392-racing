@@ -18,8 +18,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
+
 public class BetActivity extends AppCompatActivity {
-    private TextView tvBalance;
+    private TextView tvBalance, tvTile1, tvTile2, tvTile3;
     private Button btnTopUp, btnPlay;
     private CheckBox cbHorse1, cbHorse2, cbHorse3;
     private EditText edtHorse1, edtHorse2, edtHorse3;
@@ -32,6 +34,9 @@ public class BetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bet);
 
         tvBalance = findViewById(R.id.tvBalance);
+        tvTile1 = findViewById(R.id.tvTile1);
+        tvTile2 = findViewById(R.id.tvTile2);
+        tvTile3 = findViewById(R.id.tvTile3);
         btnTopUp = findViewById(R.id.btnTopUp);
         btnPlay = findViewById(R.id.btnPlay);
 
@@ -42,6 +47,14 @@ public class BetActivity extends AppCompatActivity {
         edtHorse1 = findViewById(R.id.edtHorse1);
         edtHorse2 = findViewById(R.id.edtHorse2);
         edtHorse3 = findViewById(R.id.edtHorse3);
+
+        double odd1 = randomOdds(1.5, 2.5);
+        double odd2 = randomOdds(4.0, 6.0);
+        double odd3 = randomOdds(2.5, 4.0);
+
+        tvTile1.setText("Tỉ lệ cược: " + String.format("%.1f", odd1));
+        tvTile2.setText("Tỉ lệ cược: " + String.format("%.1f", odd2));
+        tvTile3.setText("Tỉ lệ cược: " + String.format("%.1f", odd3));
 
         updateBalance();
 
@@ -75,11 +88,18 @@ public class BetActivity extends AppCompatActivity {
             intent.putExtra("bet_horse3", cbHorse3.isChecked() && !edtHorse3.getText().toString().isEmpty()
                     ? Integer.parseInt(edtHorse3.getText().toString()) : 0);
 
+            intent.putExtra("odd_1", odd1);
+            intent.putExtra("odd_2", odd2);
+            intent.putExtra("odd_3", odd3);
             // truyền số dư hiện tại
             intent.putExtra("balance", balance);
 
             startActivity(intent);
         });
+    }
+
+    private double randomOdds(double min, double max) {
+        return min + (Math.random() * (max - min));
     }
 
     private void updateBalance() {

@@ -68,6 +68,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/tvTile1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tỉ lệ cược"
+            android:textSize="16sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"/>
     </LinearLayout>
 
     <!-- Ngựa 2 -->
@@ -107,6 +116,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/tvTile2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tỉ lệ cược"
+            android:textSize="16sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"/>
     </LinearLayout>
 
     <!-- Ngựa 3 -->
@@ -146,6 +164,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/tvTile3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tỉ lệ cược"
+            android:textSize="16sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"/>
     </LinearLayout>
 
     <!-- Nút Play -->

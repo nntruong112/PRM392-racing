@@ -1,11 +1,13 @@
 package com.example.prm392_racing;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +28,8 @@ public class RaceActivity extends AppCompatActivity {
     private Random random = new Random();
     private boolean isRacing = false;
 
+    TextView tvBet1, tvBet2, tvBet3, tvHorse1Odds, tvHorse2Odds, tvHorse3Odds;
+
     // Vị trí
     private float pos1 = 0, pos2 = 0, pos3 = 0;
 
@@ -44,12 +48,29 @@ public class RaceActivity extends AppCompatActivity {
         horse2 = findViewById(R.id.horse2);
         horse3 = findViewById(R.id.horse3);
 
+        tvBet1 = findViewById(R.id.tvBet1);
+        tvBet2 = findViewById(R.id.tvBet2);
+        tvBet3 = findViewById(R.id.tvBet3);
+
+        tvHorse1Odds = findViewById(R.id.tvHorse1Odds);
+        tvHorse2Odds = findViewById(R.id.tvHorse2Odds);
+        tvHorse3Odds = findViewById(R.id.tvHorse3Odds);
+
         horse1Gif = findViewById(R.id.horse1Gif);
         horse2Gif = findViewById(R.id.horse2Gif);
         horse3Gif = findViewById(R.id.horse3Gif);
 
         btnStart = findViewById(R.id.btnStart);
         btnRestart = findViewById(R.id.btnRestart);
+
+        Intent intent = getIntent();
+        tvBet1.setText(String.valueOf(intent.getIntExtra("bet_horse1", 0)) + "$");
+        tvBet2.setText(String.valueOf(intent.getIntExtra("bet_horse2", 0)) + "$");
+        tvBet3.setText(String.valueOf(intent.getIntExtra("bet_horse3", 0)) + "$");
+
+        tvHorse1Odds.setText("Tỉ lệ: " + String.format("%.1f", intent.getDoubleExtra("odd_1", 0)) + "x");
+        tvHorse2Odds.setText("Tỉ lệ: " + String.format("%.1f", intent.getDoubleExtra("odd_2", 0)) + "x");
+        tvHorse3Odds.setText("Tỉ lệ: " + String.format("%.1f", intent.getDoubleExtra("odd_3", 0)) + "x");
 
         // Load GIF động
         Glide.with(this).asGif().load(R.drawable.horse2).into(horse1Gif);
