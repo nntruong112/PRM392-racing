@@ -112,6 +112,8 @@ public class RaceActivity extends AppCompatActivity {
                 // reset về trạng thái ban đầu
                 resetRace();
 
+
+
                 // disable start while counting
                 btnStart.setEnabled(false);
                 btnRestart.setEnabled(true);

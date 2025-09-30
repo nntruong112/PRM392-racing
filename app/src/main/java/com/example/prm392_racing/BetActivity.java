@@ -25,6 +25,8 @@ public class BetActivity extends AppCompatActivity {
     private CheckBox cbHorse1, cbHorse2, cbHorse3;
     private EditText edtHorse1, edtHorse2, edtHorse3;
 
+
+    private android.media.MediaPlayer mediaPlayer;
     private int balance = 1000; // số dư ban đầu
     private int winningsBalance;
     private ActivityResultLauncher<Intent> raceLauncher;
@@ -88,6 +90,12 @@ public class BetActivity extends AppCompatActivity {
         );
 
         btnPlay.setOnClickListener(v -> {
+
+            mediaPlayer = MediaPlayer.create(this, R.raw.click_sound);
+            mediaPlayer.setOnCompletionListener(mp -> {
+                mp.release();
+            });
+            mediaPlayer.start();
 
             int bet1 = cbHorse1.isChecked() && !edtHorse1.getText().toString().isEmpty()
                     ? Integer.parseInt(edtHorse1.getText().toString()) : 0;
