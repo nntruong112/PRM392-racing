@@ -1,6 +1,7 @@
 package com.example.prm392_racing;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,8 @@ public class RaceActivity extends AppCompatActivity {
 
     private Handler handler = new Handler(Looper.getMainLooper());
     private Random random = new Random();
+
+    private android.media.MediaPlayer mediaPlayer;
 
     // vị trí
     private float pos1 = 0, pos2 = 0, pos3 = 0;
@@ -117,6 +121,15 @@ public class RaceActivity extends AppCompatActivity {
         btnRestart.setOnClickListener(v -> {
             // Hủy mọi countdown / race đang dở, reset vị trí, ẩn countdown
             cancelCountdown();
+
+            if (mediaPlayer != null) {
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                }
+                mediaPlayer.release();
+                mediaPlayer = null;
+            }
+
             stopRace();
             resetRace();
 
@@ -155,6 +168,13 @@ public class RaceActivity extends AppCompatActivity {
     private void startRace() {
         // bật lại trạng thái đua
         isRacing = true;
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.racing_music);
+        mediaPlayer.setOnCompletionListener(mp -> {
+            mp.release();
+        });
+        mediaPlayer.start();
+
 
         // đảm bảo start button disabled, restart enabled
         btnStart.setEnabled(false);
@@ -202,6 +222,8 @@ public class RaceActivity extends AppCompatActivity {
             handler.removeCallbacks(raceRunnable);
             raceRunnable = null;
         }
+
+
     }
 
     private void cancelCountdown() {

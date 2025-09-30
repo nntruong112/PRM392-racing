@@ -1,10 +1,10 @@
 package com.example.prm392_racing;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -12,16 +12,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class BetActivity extends AppCompatActivity {
     private TextView tvBalance, tvTile1, tvTile2, tvTile3;
@@ -61,7 +57,7 @@ public class BetActivity extends AppCompatActivity {
         tvTile2.setText("Tỉ lệ cược: " + String.format("%.1f", odd2));
         tvTile3.setText("Tỉ lệ cược: " + String.format("%.1f", odd3));
 
-        updateBalance();
+
 
         // Disable EditText ban đầu
         edtHorse1.setEnabled(false);
@@ -138,6 +134,8 @@ public class BetActivity extends AppCompatActivity {
 
     private void updateBalance() {
         tvBalance.setText(balance + "$");
+
+
     }
 
     private void setupBetWatcher(EditText edt) {
@@ -173,6 +171,13 @@ public class BetActivity extends AppCompatActivity {
     }
 
     private void showTopUpDialog() {
+
+        AtomicReference<MediaPlayer> mediaPlayer = new AtomicReference<>(MediaPlayer.create(this, R.raw.dropcoin));
+        mediaPlayer.get().setOnCompletionListener(mp -> {
+            mp.release();
+        });
+        mediaPlayer.get().start();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.dialog_topup, null);
         builder.setView(view);
@@ -187,6 +192,14 @@ public class BetActivity extends AppCompatActivity {
             if (!strAmount.isEmpty()) {
                 int add = Integer.parseInt(strAmount);
                 balance += add;
+
+                mediaPlayer.set(MediaPlayer.create(this, R.raw.payment_complete));
+                mediaPlayer.get().setOnCompletionListener(mp -> {
+                    mp.release();
+                });
+                mediaPlayer.get().start();
+
+
                 updateBalance();
                 dialog.dismiss();
             } else {
