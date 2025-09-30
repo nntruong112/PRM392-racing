@@ -13,21 +13,41 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/horse1"/>
+        app:layout_constraintStart_toStartOf="parent"/>
 
-    <SeekBar
-        android:id="@+id/horse1"
+    <TextView
+        android:id="@+id/tvBet1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bet: 0$"
+        android:textSize="16sp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintTop_toTopOf="@id/tvHorse1"
+        app:layout_constraintBottom_toBottomOf="@id/tvHorse1"
+        app:layout_constraintStart_toEndOf="@id/tvHorse1"/>
+
+    <FrameLayout
+        android:id="@+id/horse1Container"
         android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:max="100"
-        android:progress="0"
-        android:thumb="@drawable/ic_launcher_foreground"
-        android:thumbTint="@android:color/holo_blue_dark"
-        android:thumbOffset="24dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvHorse1"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_height="64dp"
+        app:layout_constraintTop_toBottomOf="@id/tvHorse1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <SeekBar
+            android:id="@+id/horse1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:max="100"
+            android:progress="0"
+            android:thumb="@android:color/transparent"/>
+
+        <ImageView
+            android:id="@+id/horse1Gif"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="start|center_vertical"/>
+    </FrameLayout>
 
     <!-- Ngựa 2 -->
     <TextView
@@ -37,24 +57,44 @@
         android:text="Ngựa 2"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/tvHorse1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/horse2"
-        android:layout_marginTop="24dp"/>
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/horse1Container"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-    <SeekBar
-        android:id="@+id/horse2"
+    <TextView
+        android:id="@+id/tvBet2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bet: 0$"
+        android:textSize="16sp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintTop_toTopOf="@id/tvHorse2"
+        app:layout_constraintBottom_toBottomOf="@id/tvHorse2"
+        app:layout_constraintStart_toEndOf="@id/tvHorse2"/>
+
+    <FrameLayout
+        android:id="@+id/horse2Container"
         android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:max="100"
-        android:progress="0"
-        android:thumb="@drawable/ic_launcher_foreground"
-        android:thumbTint="@android:color/holo_green_dark"
-        android:thumbOffset="24dp"
-        app:layout_constraintTop_toBottomOf="@id/horse1"
-        app:layout_constraintStart_toEndOf="@id/tvHorse2"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"/>
+        android:layout_height="64dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tvHorse2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <SeekBar
+            android:id="@+id/horse2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:max="100"
+            android:progress="0"
+            android:thumb="@android:color/transparent"/>
+
+        <ImageView
+            android:id="@+id/horse2Gif"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="start|center_vertical"/>
+    </FrameLayout>
 
     <!-- Ngựa 3 -->
     <TextView
@@ -64,34 +104,68 @@
         android:text="Ngựa 3"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/tvHorse2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/horse3"
-        android:layout_marginTop="24dp"/>
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/horse2Container"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-    <SeekBar
-        android:id="@+id/horse3"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:max="100"
-        android:progress="0"
-        android:thumb="@drawable/ic_launcher_foreground"
-        android:thumbTint="@android:color/holo_red_dark"
-        android:thumbOffset="24dp"
-        app:layout_constraintTop_toBottomOf="@id/horse2"
-        app:layout_constraintStart_toEndOf="@id/tvHorse3"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"/>
-
-    <!-- Button Start -->
-    <Button
-        android:id="@+id/btnStart"
+    <TextView
+        android:id="@+id/tvBet3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Race"
-        app:layout_constraintTop_toBottomOf="@id/horse3"
+        android:text="Bet: 0$"
+        android:textSize="16sp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintTop_toTopOf="@id/tvHorse3"
+        app:layout_constraintBottom_toBottomOf="@id/tvHorse3"
+        app:layout_constraintStart_toEndOf="@id/tvHorse3"/>
+
+    <FrameLayout
+        android:id="@+id/horse3Container"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tvHorse3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <SeekBar
+            android:id="@+id/horse3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:max="100"
+            android:progress="0"
+            android:thumb="@android:color/transparent"/>
+
+        <ImageView
+            android:id="@+id/horse3Gif"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="start|center_vertical"/>
+    </FrameLayout>
+
+    <!-- Button Start + Restart -->
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@id/horse3Container"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"/>
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Race"/>
+
+        <Button
+            android:id="@+id/btnRestart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Restart"
+            android:layout_marginStart="16dp"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
