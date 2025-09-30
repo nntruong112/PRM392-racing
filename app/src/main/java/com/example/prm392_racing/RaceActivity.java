@@ -26,7 +26,7 @@ public class RaceActivity extends AppCompatActivity {
     private SeekBar horse1, horse2, horse3;
     private ImageView horse1Gif, horse2Gif, horse3Gif;
     private Button btnStart, btnRestart;
-    private TextView countdownText;
+    private TextView countdownText, tvBet1, tvBet2, tvBet3, tvHorse1Odds, tvHorse2Odds, tvHorse3Odds;
 
     private Handler handler = new Handler(Looper.getMainLooper());
     private Random random = new Random();
@@ -253,7 +253,7 @@ public class RaceActivity extends AppCompatActivity {
             payout = (int) (bet1 * (odd1 - 1));
             balance += payout;
         } else if (winner.equals("Ngựa 2") && bet2 > 0) {
-            payout = (int) (bet2 * odd2);
+            payout = (int) (bet1 * (odd2 - 1));
             balance += payout;
         } else if (winner.equals("Ngựa 3") && bet3 > 0) {
             payout = (int) (bet3 * (odd3 - 1));
@@ -276,7 +276,6 @@ public class RaceActivity extends AppCompatActivity {
         new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setTitle("🏆 Kết quả cuộc đua")
                 .setMessage(resultText.toString())
-                .setItems(items, null)
                 .setPositiveButton("OK", (dialog, which) -> {
                     dialog.dismiss();
 // sau khi đóng dialog cho phép start lại
