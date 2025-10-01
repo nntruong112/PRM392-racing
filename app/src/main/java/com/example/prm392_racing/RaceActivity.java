@@ -1,18 +1,20 @@
 package com.example.prm392_racing;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
-
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,31 +30,26 @@ public class RaceActivity extends AppCompatActivity {
     private SeekBar horse1, horse2, horse3;
     private ImageView horse1Gif, horse2Gif, horse3Gif;
     private Button btnStart, btnRestart;
-    private TextView countdownText, tvBet1, tvBet2, tvBet3, tvHorse1Odds, tvHorse2Odds, tvHorse3Odds, tvHorse1Name, tvHorse2Name, tvHorse3Name;
+    private TextView countdownText;
+
+    // horse name floating above GIF
+    private TextView tvHorse1Name, tvHorse2Name, tvHorse3Name;
+
+    // scoreboard top-left
+    private TextView tvHorse1Board, tvHorse2Board, tvHorse3Board;
 
     private Handler handler = new Handler(Looper.getMainLooper());
     private Random random = new Random();
 
-    private android.media.MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer;
 
-    // vị trí
     private float pos1 = 0, pos2 = 0, pos3 = 0;
-
-    private boolean boostEnabled = false;        // set via Intent or UI
-    private float speedMult = 1.0f;
-
-    // trạng thái hoàn thành
     private boolean finished1 = false, finished2 = false, finished3 = false;
+    private boolean isRacing = false;
 
-    // kết quả (lưu thời điểm về đích)
     private List<Result> results = new ArrayList<>();
-
-    // runnable references để có thể remove callbacks
     private Runnable countdownRunnable;
     private Runnable raceRunnable;
-
-    // trạng thái đua
-    private boolean isRacing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,17 +66,13 @@ public class RaceActivity extends AppCompatActivity {
         tvHorse2Name = findViewById(R.id.tvHorse2);
         tvHorse3Name = findViewById(R.id.tvHorse3);
 
+        tvHorse1Board = findViewById(R.id.tvHorse1Board);
+        tvHorse2Board = findViewById(R.id.tvHorse2Board);
+        tvHorse3Board = findViewById(R.id.tvHorse3Board);
+
         tvHorse1Name.setText("Haru Urara");
         tvHorse2Name.setText("Special Week");
         tvHorse3Name.setText("Symboli Rudolf");
-
-        tvBet1 = findViewById(R.id.tvBet1);
-        tvBet2 = findViewById(R.id.tvBet2);
-        tvBet3 = findViewById(R.id.tvBet3);
-
-        tvHorse1Odds = findViewById(R.id.tvHorse1Odds);
-        tvHorse2Odds = findViewById(R.id.tvHorse2Odds);
-        tvHorse3Odds = findViewById(R.id.tvHorse3Odds);
 
         horse1Gif = findViewById(R.id.horse1Gif);
         horse2Gif = findViewById(R.id.horse2Gif);
@@ -90,69 +83,58 @@ public class RaceActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        tvBet1.setText(String.valueOf(intent.getIntExtra("bet_horse1", 0)) + "$");
-        tvBet2.setText(String.valueOf(intent.getIntExtra("bet_horse2", 0)) + "$");
-        tvBet3.setText(String.valueOf(intent.getIntExtra("bet_horse3", 0)) + "$");
+        int bet1 = intent.getIntExtra("bet_horse1", 0);
+        int bet2 = intent.getIntExtra("bet_horse2", 0);
+        int bet3 = intent.getIntExtra("bet_horse3", 0);
 
-        tvHorse1Odds.setText("Tỉ lệ: " + String.format("%.1f", intent.getDoubleExtra("odd_1", 0)) + "x");
-        tvHorse2Odds.setText("Tỉ lệ: " + String.format("%.1f", intent.getDoubleExtra("odd_2", 0)) + "x");
-        tvHorse3Odds.setText("Tỉ lệ: " + String.format("%.1f", intent.getDoubleExtra("odd_3", 0)) + "x");
+        double odd1 = intent.getDoubleExtra("odd_1", 0);
+        double odd2 = intent.getDoubleExtra("odd_2", 0);
+        double odd3 = intent.getDoubleExtra("odd_3", 0);
 
+        // scoreboard text
+        tvHorse1Board.setText("Haru Urara | x" + String.format("%.1f", odd1) + " | " + bet1 + "$");
+        tvHorse2Board.setText("Special Week | x" + String.format("%.1f", odd2) + " | " + bet2 + "$");
+        tvHorse3Board.setText("Symboli Rudolf | x" + String.format("%.1f", odd3) + " | " + bet3 + "$");
 
-        // Load GIF động
+        // load GIF horses
         Glide.with(this).asGif().load(R.drawable.horse1).into(horse1Gif);
         Glide.with(this).asGif().load(R.drawable.horse2).into(horse2Gif);
         Glide.with(this).asGif().load(R.drawable.horse3).into(horse3Gif);
 
-        // ban đầu: restart disabled
         btnRestart.setEnabled(false);
 
         btnStart.setOnClickListener(v -> {
             if (!isRacing) {
-                // reset về trạng thái ban đầu
                 resetRace();
-
-                // disable start while counting
                 btnStart.setEnabled(false);
                 btnRestart.setEnabled(true);
-
-                // start countdown (no fade)
                 startCountdown(this::startRace);
             }
         });
 
         btnRestart.setOnClickListener(v -> {
-            // Hủy mọi countdown / race đang dở, reset vị trí, ẩn countdown
             cancelCountdown();
 
             if (mediaPlayer != null) {
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.stop();
-                }
-
+                if (mediaPlayer.isPlaying()) mediaPlayer.stop();
                 mediaPlayer.release();
                 mediaPlayer = null;
             }
 
-
             stopRace();
             resetRace();
 
-            // Cho phép bấm start lại
             btnStart.setEnabled(true);
             btnRestart.setEnabled(false);
             countdownText.setVisibility(View.GONE);
         });
 
-        // ensure initial visual positions after layout pass
         horse1.post(() -> {
             updateGifPosition(horse1, horse1Gif, 0f);
             updateGifPosition(horse2, horse2Gif, 0f);
             updateGifPosition(horse3, horse3Gif, 0f);
         });
     }
-
-
 
     private void resetRace() {
         pos1 = pos2 = pos3 = 0f;
@@ -163,37 +145,28 @@ public class RaceActivity extends AppCompatActivity {
         finished1 = finished2 = finished3 = false;
         results.clear();
 
-        // đưa GIF về vị trí đầu (cập nhật vị trí ngay)
         updateGifPosition(horse1, horse1Gif, 0f);
         updateGifPosition(horse2, horse2Gif, 0f);
         updateGifPosition(horse3, horse3Gif, 0f);
 
-        // không tự bật isRacing ở đây — isRacing chỉ bật khi startRace() chạy
         isRacing = false;
     }
 
     private void startRace() {
-        // bật lại trạng thái đua
         isRacing = true;
 
         mediaPlayer = MediaPlayer.create(this, R.raw.racing_music);
-        mediaPlayer.setOnCompletionListener(mp -> {
-            mp.release();
-        });
+        mediaPlayer.setOnCompletionListener(MediaPlayer::release);
         mediaPlayer.start();
 
-
-        // đảm bảo start button disabled, restart enabled
         btnStart.setEnabled(false);
         btnRestart.setEnabled(true);
 
-        // tạo runnable đua và post
         raceRunnable = new Runnable() {
             @Override
             public void run() {
                 if (!isRacing) return;
 
-                // Di chuyển từng ngựa nếu chưa về đích
                 if (!finished1) pos1 += 0.1f + random.nextFloat() * 0.9f;
                 if (!finished2) pos2 += 0.1f + random.nextFloat() * 0.9f;
                 if (!finished3) pos3 += 0.1f + random.nextFloat() * 0.9f;
@@ -206,12 +179,10 @@ public class RaceActivity extends AppCompatActivity {
                 updateGifPosition(horse2, horse2Gif, pos2);
                 updateGifPosition(horse3, horse3Gif, pos3);
 
-                // Kiểm tra ngựa về đích; lưu thời điểm về đích
                 checkFinishWithTime("Haru Urara", pos1, 1);
                 checkFinishWithTime("Special Week", pos2, 2);
                 checkFinishWithTime("Symboli Rudolf", pos3, 3);
 
-                // Nếu tất cả ngựa xong thì công bố kết quả
                 if (finished1 && finished2 && finished3) {
                     announceResults();
                 } else {
@@ -229,8 +200,6 @@ public class RaceActivity extends AppCompatActivity {
             handler.removeCallbacks(raceRunnable);
             raceRunnable = null;
         }
-
-
     }
 
     private void cancelCountdown() {
@@ -242,7 +211,7 @@ public class RaceActivity extends AppCompatActivity {
 
     private void checkFinishWithTime(String name, float pos, int id) {
         if (pos >= 100f) {
-            long finishTime = SystemClock.elapsedRealtime(); // thời điểm hoàn thành
+            long finishTime = SystemClock.elapsedRealtime();
             if (id == 1 && !finished1) {
                 finished1 = true;
                 results.add(new Result(name, finishTime));
@@ -258,24 +227,14 @@ public class RaceActivity extends AppCompatActivity {
         }
     }
 
-    private void announceResults() {
-        // dừng race nếu chưa dừng
-        stopRace();
 
-        // sắp xếp theo thời điểm hoàn thành (nhỏ nhất là về đầu)
+    private void announceResults() {
+        stopRace();
         results.sort(Comparator.comparingLong(r -> r.finishTime));
 
-        // Tạo danh sách hiển thị
-        StringBuilder resultText = new StringBuilder();
-        for (int i = 0; i < results.size(); i++) {
-            resultText.append("Top ").append(i + 1).append(": ")
-                    .append(results.get(i).name).append("\n");
-        }
-
-        // Lấy ngựa thắng
         String winner = results.get(0).name;
 
-        // Nhận dữ liệu cược + odds từ intent
+        // Bets & odds
         int bet1 = getIntent().getIntExtra("bet_horse1", 0);
         int bet2 = getIntent().getIntExtra("bet_horse2", 0);
         int bet3 = getIntent().getIntExtra("bet_horse3", 0);
@@ -298,37 +257,100 @@ public class RaceActivity extends AppCompatActivity {
             balance += payout;
         }
 
-        resultText.append("\n");
+        int finalBalance = balance;
 
-        if (payout > 0) {
-            resultText.append("✅ Bạn thắng cược!\n")
-                    .append("Nhận về: ").append(payout).append("$\n")
-                    .append("Số dư mới: ").append(balance).append("$");
-        } else {
-            resultText.append("❌ Bạn thua cược!\n")
-                    .append("Số dư còn: ").append(balance).append("$");
+        // Inflate custom dialog layout
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_race_result, null);
+        LinearLayout resultContainer = dialogView.findViewById(R.id.resultContainer);
+        TextView tvBalanceInfo = dialogView.findViewById(R.id.tvBalanceInfo);
+
+        // Add top results dynamically
+        for (int i = 0; i < results.size(); i++) {
+            View itemView = getLayoutInflater().inflate(R.layout.item_result_horse, resultContainer, false);
+
+            TextView tvRank = itemView.findViewById(R.id.tvRank);
+            ImageView imgHorse = itemView.findViewById(R.id.imgHorse);
+            TextView tvHorseName = itemView.findViewById(R.id.tvHorseName);
+
+            tvRank.setText("Top " + (i + 1));
+            tvHorseName.setText(results.get(i).name);
+
+            if (results.get(i).name.equals("Haru Urara")) {
+                imgHorse.setImageResource(R.drawable.haru_urara);
+            } else if (results.get(i).name.equals("Special Week")) {
+                imgHorse.setImageResource(R.drawable.special_week);
+            } else if (results.get(i).name.equals("Symboli Rudolf")) {
+                imgHorse.setImageResource(R.drawable.symboli_rudolf);
+            }
+
+            resultContainer.addView(itemView);
         }
 
-        // Tạo dialog popup
-        int finalBalance = balance;
+        // =========================
+        // Balance Info with Highlights
+        // =========================
+        String text;
+        if (payout > 0) {
+            text = "✅ Bạn thắng cược!\nNhận về: " + payout + "$\nSố dư mới: " + balance + "$";
+        } else {
+            text = "❌ Bạn thua cược!\nSố dư còn: " + balance + "$";
+        }
+
+        SpannableString ss = new SpannableString(text);
+
+        if (payout > 0) {
+            // highlight "thắng cược"
+            int start1 = text.indexOf("thắng cược");
+            if (start1 >= 0) {
+                ss.setSpan(new ForegroundColorSpan(Color.parseColor("#4CAF50")),
+                        start1, start1 + "thắng cược".length(), 0);
+            }
+
+            // highlight payout number
+            String payoutStr = payout + "$";
+            int start2 = text.indexOf(payoutStr);
+            if (start2 >= 0) {
+                ss.setSpan(new ForegroundColorSpan(Color.parseColor("#FFEB3B")),
+                        start2, start2 + payoutStr.length(), 0);
+            }
+        } else {
+            // highlight "thua cược"
+            int start1 = text.indexOf("thua cược");
+            if (start1 >= 0) {
+                ss.setSpan(new ForegroundColorSpan(Color.parseColor("#F44336")),
+                        start1, start1 + "thua cược".length(), 0);
+            }
+
+            // highlight balance number
+            String balanceStr = balance + "$";
+            int start2 = text.indexOf(balanceStr);
+            if (start2 >= 0) {
+                ss.setSpan(new ForegroundColorSpan(Color.parseColor("#FFEB3B")),
+                        start2, start2 + balanceStr.length(), 0);
+            }
+        }
+
+        // default white for rest
+        tvBalanceInfo.setTextColor(Color.WHITE);
+        tvBalanceInfo.setText(ss);
+
+        // Show the dialog
         new androidx.appcompat.app.AlertDialog.Builder(this)
-                .setTitle("🏆 Kết quả cuộc đua")
-                .setMessage(resultText.toString())
+                .setView(dialogView)
                 .setPositiveButton("OK", (dialog, which) -> {
                     dialog.dismiss();
-// sau khi đóng dialog cho phép start lại
                     btnStart.setEnabled(true);
                     btnRestart.setEnabled(false);
 
                     Intent resultIntent = new Intent(RaceActivity.this, BetActivity.class);
                     resultIntent.putExtra("winningsBalance", finalBalance);
                     setResult(RESULT_OK, resultIntent);
-
                     finish();
                 })
                 .setCancelable(false)
                 .show();
     }
+
 
 
     private void updateGifPosition(SeekBar seekBar, ImageView gif, float pos) {
@@ -338,22 +360,33 @@ public class RaceActivity extends AppCompatActivity {
         int availableWidth = seekBar.getWidth() - seekBar.getPaddingLeft() - seekBar.getPaddingRight();
         int thumbOffset = (int) (percent * availableWidth);
 
-        // dùng post để đảm bảo view đã measured (nếu gọi sớm)
         gif.post(() -> {
-            gif.setX(seekBar.getX() + seekBar.getPaddingLeft() + thumbOffset - gif.getWidth() / 2f);
-            gif.setY(seekBar.getY() + seekBar.getHeight() / 2f - gif.getHeight() / 2f);
+            float newX = seekBar.getX() + seekBar.getPaddingLeft() + thumbOffset - gif.getWidth() / 2f;
+            float newY = seekBar.getY() + seekBar.getHeight() / 2f - gif.getHeight() / 2f;
+
+            gif.setX(newX);
+            gif.setY(newY);
+
+            // move floating name above horse
+            TextView nameView;
+            if (gif.getId() == R.id.horse1Gif) nameView = tvHorse1Name;
+            else if (gif.getId() == R.id.horse2Gif) nameView = tvHorse2Name;
+            else nameView = tvHorse3Name;
+
+            if (nameView != null) {
+                nameView.setX(newX);
+                nameView.setY(newY - nameView.getHeight() - 8);
+            }
         });
     }
 
     private void startCountdown(Runnable onFinish) {
-        // hủy nếu đang có countdown cũ
         cancelCountdown();
 
         countdownText.setVisibility(View.VISIBLE);
         final int[] count = {3};
         countdownText.setText(String.valueOf(count[0]));
 
-        // không animation / fade — simple numeric countdown
         countdownRunnable = new Runnable() {
             @Override
             public void run() {
@@ -363,7 +396,6 @@ public class RaceActivity extends AppCompatActivity {
                     handler.postDelayed(this, 1000);
                 } else {
                     countdownText.setText("START!");
-                    // giữ chữ START một lúc rồi ẩn và bắt đầu race
                     handler.postDelayed(() -> {
                         countdownText.setVisibility(View.GONE);
                         countdownRunnable = null;
@@ -373,11 +405,9 @@ public class RaceActivity extends AppCompatActivity {
             }
         };
 
-        // bắt đầu countdown sau 1s (để hiện "3" trước)
         handler.postDelayed(countdownRunnable, 1000);
     }
 
-    // class để lưu kết quả
     private static class Result {
         String name;
         long finishTime;
