@@ -4,90 +4,112 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_bg"
-    android:alpha="0.8"
     android:id="@+id/signin"
     tools:context=".SignInActivity">
 
+    <!-- Swiper Background -->
+    <ViewFlipper
+        android:id="@+id/bgFlipper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:autoStart="true"
+        android:flipInterval="5000">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg1" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg2" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg3" />
+
+    </ViewFlipper>
+
+    <!-- Foreground UI -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:padding="24dp">
 
-        <!-- Logo -->
-        <ImageView
-            android:id="@+id/horse"
-            android:layout_width="163dp"
-            android:layout_height="98dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:contentDescription="Horse Logo"
-            android:src="@drawable/ic_horse" />
-
-        <!-- Tiêu đề -->
+        <!-- Floating + Shimmer Title -->
         <TextView
             android:id="@+id/horseRacing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/horse"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="33dp"
-            android:layout_toEndOf="@id/horse"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
             android:fontFamily="sans-serif-black"
             android:text="Horse Racing"
-            android:textColor="#000000"
-            android:textSize="50sp"
-            android:textStyle="bold" />
+            android:textColor="#FFFFFF"
+            android:textSize="52sp"
+            android:textStyle="bold"
+            android:shadowColor="#AA000000"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:shadowRadius="6"/>
 
-        <!-- Ô nhập User Name -->
+        <!-- Username -->
         <EditText
             android:id="@+id/editTextUser"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/horse"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginRight="50dp"
+            android:layout_height="65dp"
+            android:layout_below="@id/horseRacing"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
             android:background="@drawable/edit_text_background"
             android:hint="User Name"
-            android:textColorHint="#000000"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#AAAAAA"
             android:inputType="textPersonName"
-            android:padding="10dp"
-            android:textSize="24sp" />
+            android:padding="14dp"
+            android:textSize="22sp"
+            android:gravity="center_vertical" />
 
-        <!-- Ô nhập Password -->
+        <!-- Password -->
         <EditText
             android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="65dp"
             android:layout_below="@id/editTextUser"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
             android:background="@drawable/edit_text_background"
             android:hint="Password"
-            android:textColorHint="#000000"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#AAAAAA"
             android:inputType="textPassword"
-            android:padding="10dp"
-            android:textSize="24sp" />
+            android:padding="14dp"
+            android:textSize="22sp"
+            android:gravity="center_vertical" />
 
-        <!-- Nút Start -->
+        <!-- Exciting Login Button -->
         <TextView
             android:id="@+id/tvStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="220dp"
+            android:layout_height="75dp"
             android:layout_below="@id/editTextPassword"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/button_gradient_border"
             android:clickable="true"
+            android:focusable="true"
             android:fontFamily="monospace"
-            android:padding="10dp"
+            android:gravity="center"
             android:text="Login"
-            android:textColor="#EF5F5D5D"
-            android:textSize="30sp"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
