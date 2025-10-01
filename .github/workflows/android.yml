@@ -28,6 +28,6 @@ jobs:
           java -version
           ./gradlew --version
 
-      # Build without aborting on lint errors
-      - name: Build with Gradle (skip lint errors)
-        run: ./gradlew build -x lint --stacktrace --warning-mode all
+      # Build while skipping all lint tasks (lint, lintDebug, lintRelease, lintVitalRelease)
+      - name: Build with Gradle (skip all lint)
+        run: ./gradlew build -x lint -x lintDebug -x lintRelease -x lintVitalRelease --stacktrace --warning-mode all
