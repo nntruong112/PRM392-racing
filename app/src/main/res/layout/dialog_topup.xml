@@ -3,36 +3,51 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20dp"
-    android:background="@drawable/bg_dialog"
-    android:gravity="center_horizontal">
+    android:padding="24dp"
+    android:gravity="center_horizontal"
+    android:background="@drawable/bg_dialog">
 
-    <!-- Tiêu đề -->
+    <!-- Title -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bạn muốn nạp bao nhiêu?"
-        android:textSize="18sp"
+        android:text="💰 Nạp tiền"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginBottom="15dp"/>
+        android:textColor="#FFD700"
+        android:shadowColor="#AA000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="4"
+        android:layout_marginBottom="20dp" />
 
-    <!-- Ô nhập số tiền -->
+    <!-- Input field -->
     <EditText
         android:id="@+id/edtTopUpAmount"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_width="220dp"
+        android:layout_height="55dp"
         android:hint="Nhập số tiền"
         android:inputType="number"
         android:gravity="center"
-        android:background="@android:drawable/editbox_background"/>
+        android:textColor="#FFD700"
+        android:textColorHint="#AAAAAA"
+        android:textSize="18sp"
+        android:background="@drawable/edittext_gold"
+        android:layout_marginBottom="20dp" />
 
-    <!-- Nút xác nhận -->
-    <Button
+    <!-- Confirm Button -->
+    <TextView
         android:id="@+id/btnConfirmTopUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="220dp"
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:clickable="true"
+        android:focusable="true"
         android:text="Xác nhận"
-        android:layout_marginTop="20dp"/>
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/button_confirm"/>
 
 </LinearLayout>
