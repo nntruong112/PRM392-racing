@@ -69,6 +69,10 @@ public class SignInActivity extends AppCompatActivity {
         // Button animations
         startPulseAnimation(tvStart);
 
+        mediaPlayer = MediaPlayer.create(this, R.raw.login_backgrounf);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+
         // Click handler
         tvStart.setOnClickListener(v -> {
             startClickAnimation(tvStart);
@@ -150,6 +154,14 @@ public class SignInActivity extends AppCompatActivity {
 
         if (username.equals(VALID_USERNAME) && password.equals(VALID_PASSWORD)) {
             Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+
+            if (mediaPlayer != null) {
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                }
+                mediaPlayer.release();
+                mediaPlayer = null;
+            }
 
             mediaPlayer = MediaPlayer.create(this, R.raw.login);
             mediaPlayer.setOnCompletionListener(mp -> mp.release());
