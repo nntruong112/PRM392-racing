@@ -289,7 +289,7 @@ public class RaceActivity extends AppCompatActivity {
             payout = (int) (bet1 * (odd1 - 1));
             balance += payout;
         } else if (winner.equals("Special Week") && bet2 > 0) {
-            payout = (int) (bet1 * (odd2 - 1));
+            payout = (int) (bet2 * (odd2 - 1));
             balance += payout;
         } else if (winner.equals("Symboli Rudolf") && bet3 > 0) {
             payout = (int) (bet3 * (odd3 - 1));

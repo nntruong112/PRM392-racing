@@ -1,188 +1,368 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp">
+    android:padding="12dp"
+    android:background="@color/white">
 
-    <!-- Hiển thị số dư -->
+    <ImageView
+        android:id="@+id/bgImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/app_name"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_betmenu"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Nút nạp tiền -->
 
-    <!-- Ngựa 1 -->
-
-    <TextView
-        android:id="@+id/tvBalance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="70dp"
-        android:text="999$"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/btnTopUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/tvBalance"
-        android:layout_marginStart="-229dp"
-        android:layout_marginTop="-14dp"
-        android:layout_toEndOf="@id/tvBalance"
-        android:text="Nạp tiền" />
-
+    <!-- Balance + Top Up -->
     <LinearLayout
-        android:id="@+id/rowHorse1"
-        android:layout_width="match_parent"
+        android:id="@+id/topBar"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/tvBalance"
-        android:layout_marginTop="20dp">
-
-        <ImageView
-            android:id="@+id/imgHorse1"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/horse1" />
+        android:gravity="end|center_vertical"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
+            android:id="@+id/tvBalance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Haru Urara"
-            android:textSize="16sp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"/>
+            android:text="💰 999$"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginEnd="12dp"/>
 
-        <EditText
-            android:id="@+id/edtHorse1"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:hint="Bet"
-            android:inputType="number"
-            android:layout_marginStart="10dp"/>
-
-        <CheckBox
-            android:id="@+id/cbHorse1"
+        <Button
+            android:id="@+id/btnTopUp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_gravity="center_vertical"/>
-
-        <TextView
-            android:id="@+id/tvTile1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tỉ lệ cược"
-            android:textSize="16sp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"/>
+            android:layout_height="36dp"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:text="Nạp tiền"
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="@null"
+            android:background="@drawable/button_confirm" />
     </LinearLayout>
 
-    <!-- Ngựa 2 -->
+
+    <!-- Left Panel: Horses + Play -->
     <LinearLayout
-        android:id="@+id/rowHorse2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/rowHorse1"
-        android:layout_marginTop="20dp">
+        android:id="@+id/leftPanel"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/horseFlipper"
+        app:layout_constraintWidth_percent="0.6">
 
-        <ImageView
-            android:id="@+id/imgHorse2"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/horse2" />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Horse 1 -->
+        <LinearLayout
+            android:id="@+id/rowHorse1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"
-            android:text="Special Week"
-            android:textSize="16sp" />
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:background="@drawable/horse_row_bg"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="10dp">
 
-        <EditText
-            android:id="@+id/edtHorse2"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:hint="Bet"
-            android:inputType="number"
-            android:layout_marginStart="10dp"/>
+            <ImageView
+                android:id="@+id/imgHorse1"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/horse1" />
 
-        <CheckBox
-            android:id="@+id/cbHorse2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_gravity="center_vertical"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="8dp">
 
-        <TextView
-            android:id="@+id/tvTile2"
-            android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tvHorse1Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Haru Urara"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/tvTile1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tỉ lệ cược: x2.5"
+                    android:textSize="13sp"
+                    android:textColor="@android:color/white"
+                    android:layout_marginTop="2dp"/>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edtHorse1"
+                android:layout_width="100dp"
+                android:layout_height="36dp"
+                android:hint="Bet"
+                android:gravity="center"
+                android:inputType="number"
+                android:background="@drawable/edittext_gold"
+                android:textColor="@android:color/white"
+                android:textColorHint="#DDDDDD" />
+
+            <CheckBox
+                android:id="@+id/cbHorse1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"/>
+        </LinearLayout>
+
+        <!-- Horse 2 -->
+        <LinearLayout
+            android:id="@+id/rowHorse2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tỉ lệ cược"
-            android:textSize="16sp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"/>
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:background="@drawable/horse_row_bg"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:id="@+id/imgHorse2"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/horse2" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="8dp">
+
+                <TextView
+                    android:id="@+id/tvHorse2Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Special Week"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/tvTile2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tỉ lệ cược: x4.0"
+                    android:textSize="13sp"
+                    android:textColor="@android:color/white"
+                    android:layout_marginTop="2dp"/>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edtHorse2"
+                android:layout_width="100dp"
+                android:layout_height="36dp"
+                android:hint="Bet"
+                android:gravity="center"
+                android:inputType="number"
+                android:background="@drawable/edittext_gold"
+                android:textColor="@android:color/white"
+                android:textColorHint="#DDDDDD" />
+
+            <CheckBox
+                android:id="@+id/cbHorse2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"/>
+        </LinearLayout>
+
+        <!-- Horse 3 -->
+        <LinearLayout
+            android:id="@+id/rowHorse3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:background="@drawable/horse_row_bg"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:id="@+id/imgHorse3"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/horse3" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="8dp">
+
+                <TextView
+                    android:id="@+id/tvHorse3Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Symboli Rudolf"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/tvTile3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tỉ lệ cược: x3.0"
+                    android:textSize="13sp"
+                    android:textColor="@android:color/white"
+                    android:layout_marginTop="2dp"/>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edtHorse3"
+                android:layout_width="100dp"
+                android:layout_height="36dp"
+                android:hint="Bet"
+                android:gravity="center"
+                android:inputType="number"
+                android:background="@drawable/edittext_gold"
+                android:textColor="@android:color/white"
+                android:textColorHint="#DDDDDD" />
+
+            <CheckBox
+                android:id="@+id/cbHorse3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"/>
+        </LinearLayout>
+
+        <!-- Play Button -->
+        <Button
+            android:id="@+id/btnPlay"
+            app:backgroundTint="@null"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="🏇 Play Race"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/button_confirm"/>
+
     </LinearLayout>
 
-    <!-- Ngựa 3 -->
-    <LinearLayout
-        android:id="@+id/rowHorse3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/rowHorse2"
-        android:layout_marginTop="20dp">
+    <!-- Right Panel: Horse Info Swiper -->
+    <ViewFlipper
+        android:id="@+id/horseFlipper"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:flipInterval="4000"
+        android:autoStart="true"
+        android:inAnimation="@android:anim/slide_in_left"
+        android:outAnimation="@android:anim/slide_out_right"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/leftPanel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.4">
 
-        <ImageView
-            android:id="@+id/imgHorse3"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/horse3" />
+        <!-- Slide 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="12dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"
-            android:text="Symboli Rudolf"
-            android:textSize="16sp" />
+            <ImageView
+                android:layout_width="240dp"
+                android:layout_height="240dp"
+                android:src="@drawable/haru_urara" />
 
-        <EditText
-            android:id="@+id/edtHorse3"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:hint="Bet"
-            android:inputType="number"
-            android:layout_marginStart="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🐴 Haru Urara\nA horse with the heart of gold!"
+                android:textSize="14sp"
+                android:textColor="@android:color/white"
+                android:gravity="center"
+                android:layout_marginTop="8dp"
+                android:shadowColor="@android:color/black"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="3"/>
+        </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/cbHorse3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_gravity="center_vertical"/>
+        <!-- Slide 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="12dp">
 
-        <TextView
-            android:id="@+id/tvTile3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tỉ lệ cược"
-            android:textSize="16sp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"/>
-    </LinearLayout>
+            <ImageView
+                android:layout_width="240dp"
+                android:layout_height="240dp"
+                android:src="@drawable/special_week" />
 
-    <!-- Nút Play -->
-    <Button
-        android:id="@+id/btnPlay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play"
-        android:layout_below="@id/rowHorse3"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="30dp"/>
-</RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🏆 Special Week\nThe rising star of the track!"
+                android:textSize="14sp"
+                android:textColor="@android:color/white"
+                android:gravity="center"
+                android:layout_marginTop="8dp"
+                android:shadowColor="@android:color/black"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="3"/>
+        </LinearLayout>
 
+        <!-- Slide 3 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="240dp"
+                android:layout_height="240dp"
+                android:src="@drawable/symboli_rudolf" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="👑 Symboli Rudolf\nThe emperor of horse racing!"
+                android:textSize="14sp"
+                android:textColor="@android:color/white"
+                android:gravity="center"
+                android:layout_marginTop="8dp"
+                android:shadowColor="@android:color/black"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="3"/>
+        </LinearLayout>
+    </ViewFlipper>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
