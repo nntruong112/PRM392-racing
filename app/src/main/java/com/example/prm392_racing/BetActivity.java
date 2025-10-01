@@ -31,6 +31,8 @@ public class BetActivity extends AppCompatActivity {
     private int winningsBalance;
     private ActivityResultLauncher<Intent> raceLauncher;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +78,9 @@ public class BetActivity extends AppCompatActivity {
         setupBetWatcher(edtHorse2);
         setupBetWatcher(edtHorse3);
 
-        btnTopUp.setOnClickListener(v -> showTopUpDialog());
+        btnTopUp.setOnClickListener(v -> {
+            showTopUpDialog();
+        });
 
         raceLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -91,6 +95,15 @@ public class BetActivity extends AppCompatActivity {
 
         btnPlay.setOnClickListener(v -> {
 
+//            if (mediaPlayer != null) {
+//                if (mediaPlayer.isPlaying()) {
+//                    mediaPlayer.stop();
+//                }
+//
+//                mediaPlayer.release();
+//                mediaPlayer = null;
+//            }
+//
             mediaPlayer = MediaPlayer.create(this, R.raw.click_sound);
             mediaPlayer.setOnCompletionListener(mp -> {
                 mp.release();
@@ -149,10 +162,12 @@ public class BetActivity extends AppCompatActivity {
     private void setupBetWatcher(EditText edt) {
         edt.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -204,9 +219,9 @@ public class BetActivity extends AppCompatActivity {
                 mediaPlayer.set(MediaPlayer.create(this, R.raw.payment_complete));
                 mediaPlayer.get().setOnCompletionListener(mp -> {
                     mp.release();
+                    // Play background music after payment complete sound finishes
                 });
                 mediaPlayer.get().start();
-
 
                 updateBalance();
                 dialog.dismiss();

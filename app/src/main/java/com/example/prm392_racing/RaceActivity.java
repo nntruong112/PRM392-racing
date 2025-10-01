@@ -112,8 +112,6 @@ public class RaceActivity extends AppCompatActivity {
                 // reset về trạng thái ban đầu
                 resetRace();
 
-
-
                 // disable start while counting
                 btnStart.setEnabled(false);
                 btnRestart.setEnabled(true);
@@ -131,9 +129,11 @@ public class RaceActivity extends AppCompatActivity {
                 if (mediaPlayer.isPlaying()) {
                     mediaPlayer.stop();
                 }
+
                 mediaPlayer.release();
                 mediaPlayer = null;
             }
+
 
             stopRace();
             resetRace();
@@ -151,6 +151,8 @@ public class RaceActivity extends AppCompatActivity {
             updateGifPosition(horse3, horse3Gif, 0f);
         });
     }
+
+
 
     private void resetRace() {
         pos1 = pos2 = pos3 = 0f;
