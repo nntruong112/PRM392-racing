@@ -156,7 +156,7 @@ public class BetActivity extends AppCompatActivity {
 
     private void startBgm() {
         if (bgmPlayer == null) {
-            bgmPlayer = MediaPlayer.create(this, R.raw.playing_bg_music); // <-- add bet_bgm to res/raw
+            bgmPlayer = MediaPlayer.create(this, R.raw.waiting_music); // <-- add bet_bgm to res/raw
             if (bgmPlayer != null) {
                 bgmPlayer.setLooping(true);
                 // (Optional) adjust background volume

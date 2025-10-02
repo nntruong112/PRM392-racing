@@ -32,6 +32,8 @@ public class RaceActivity extends AppCompatActivity {
     private Button btnStart, btnRestart;
     private TextView countdownText;
 
+    private MediaPlayer bgmPlayer;
+
     // horse name floating above GIF
     private TextView tvHorse1Name, tvHorse2Name, tvHorse3Name;
 
@@ -136,7 +138,46 @@ public class RaceActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        startBgm(); // play while RaceActivity is visible (pre-race, countdown, race, result dialog)
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopBgm();  // stop when navigating away (e.g., finishing and returning to BetActivity)
+    }
+
+    private void startBgm() {
+        if (bgmPlayer == null) {
+            // reuse your existing racing music file
+            bgmPlayer = MediaPlayer.create(this, R.raw.playing_bg_music);
+            if (bgmPlayer != null) {
+                bgmPlayer.setLooping(true);
+                bgmPlayer.setVolume(0.5f, 0.5f);
+            }
+        }
+        if (bgmPlayer != null && !bgmPlayer.isPlaying()) {
+            bgmPlayer.start();
+        }
+    }
+
+    private void stopBgm() {
+        if (bgmPlayer != null) {
+            try {
+                if (bgmPlayer.isPlaying()) bgmPlayer.stop();
+            } catch (IllegalStateException ignored) { }
+            bgmPlayer.release();
+            bgmPlayer = null;
+        }
+    }
+
     private void resetRace() {
+
+        startBgm();
+
         pos1 = pos2 = pos3 = 0f;
         horse1.setProgress(0);
         horse2.setProgress(0);
@@ -153,6 +194,8 @@ public class RaceActivity extends AppCompatActivity {
     }
 
     private void startRace() {
+        stopBgm();
+
         isRacing = true;
 
         mediaPlayer = MediaPlayer.create(this, R.raw.racing_music);
