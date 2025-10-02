@@ -25,6 +25,7 @@ public class BetActivity extends AppCompatActivity {
     private CheckBox cbHorse1, cbHorse2, cbHorse3;
     private EditText edtHorse1, edtHorse2, edtHorse3;
 
+    private MediaPlayer bgmPlayer;
 
     private android.media.MediaPlayer mediaPlayer;
     private int balance = 1000; // số dư ban đầu
@@ -153,6 +154,42 @@ public class BetActivity extends AppCompatActivity {
         return min + (Math.random() * (max - min));
     }
 
+    private void startBgm() {
+        if (bgmPlayer == null) {
+            bgmPlayer = MediaPlayer.create(this, R.raw.playing_bg_music); // <-- add bet_bgm to res/raw
+            if (bgmPlayer != null) {
+                bgmPlayer.setLooping(true);
+                // (Optional) adjust background volume
+                bgmPlayer.setVolume(0.4f, 0.4f);
+            }
+        }
+        if (bgmPlayer != null && !bgmPlayer.isPlaying()) {
+            bgmPlayer.start();
+        }
+    }
+
+    private void stopBgm() {
+        if (bgmPlayer != null) {
+            try {
+                if (bgmPlayer.isPlaying()) bgmPlayer.stop();
+            } catch (IllegalStateException ignored) { /* safe-guard */ }
+            bgmPlayer.release();
+            bgmPlayer = null;
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        startBgm();   // Start/resume when screen becomes visible
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopBgm();    // Stop & release when leaving this screen (e.g., opening RaceActivity)
+    }
+
     private void updateBalance() {
         tvBalance.setText(balance + "$");
 
@@ -195,11 +232,11 @@ public class BetActivity extends AppCompatActivity {
 
     private void showTopUpDialog() {
 
-        AtomicReference<MediaPlayer> mediaPlayer = new AtomicReference<>(MediaPlayer.create(this, R.raw.dropcoin));
-        mediaPlayer.get().setOnCompletionListener(mp -> {
-            mp.release();
-        });
-        mediaPlayer.get().start();
+        AtomicReference<MediaPlayer> ref = new AtomicReference<>(MediaPlayer.create(this, R.raw.dropcoin));
+        if (ref.get() != null) {
+            ref.get().setOnCompletionListener(mp -> mp.release());
+            ref.get().start();
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.dialog_topup, null);
@@ -216,12 +253,11 @@ public class BetActivity extends AppCompatActivity {
                 int add = Integer.parseInt(strAmount);
                 balance += add;
 
-                mediaPlayer.set(MediaPlayer.create(this, R.raw.payment_complete));
-                mediaPlayer.get().setOnCompletionListener(mp -> {
-                    mp.release();
-                    // Play background music after payment complete sound finishes
-                });
-                mediaPlayer.get().start();
+                MediaPlayer done = MediaPlayer.create(this, R.raw.payment_complete);
+                if (done != null) {
+                    done.setOnCompletionListener(mp -> mp.release());
+                    done.start();
+                }
 
                 updateBalance();
                 dialog.dismiss();
@@ -233,4 +269,8 @@ public class BetActivity extends AppCompatActivity {
         dialog.show();
     }
 
+
+
+
 }
+
