@@ -88,7 +88,6 @@
             android:scaleType="fitCenter"
             android:src="@drawable/horse1" />
 
-        <!-- Only Name floats above -->
         <TextView
             android:id="@+id/tvHorse1"
             android:layout_width="wrap_content"
@@ -101,8 +100,7 @@
             android:shadowDy="2"
             android:shadowRadius="3"
             android:layout_above="@id/horse1Gif"
-            android:layout_marginBottom="0dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp" />
     </RelativeLayout>
 
     <!-- Horse 2 -->
@@ -146,8 +144,7 @@
             android:shadowDy="2"
             android:shadowRadius="3"
             android:layout_above="@id/horse2Gif"
-            android:layout_marginBottom="0dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp" />
     </RelativeLayout>
 
     <!-- Horse 3 -->
@@ -191,8 +188,7 @@
             android:shadowDy="2"
             android:shadowRadius="3"
             android:layout_above="@id/horse3Gif"
-            android:layout_marginBottom="0dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp" />
     </RelativeLayout>
 
     <!-- Buttons -->
@@ -226,7 +222,17 @@
             android:text="Restart"
             android:textColor="@android:color/white"
             app:backgroundTint="@null" />
-    </LinearLayout>
 
+        <Button
+            android:id="@+id/btnQuit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/button_cancel"
+            android:paddingHorizontal="24dp"
+            android:text="Back to Bet"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@null" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

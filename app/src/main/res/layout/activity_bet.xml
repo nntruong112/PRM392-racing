@@ -53,6 +53,24 @@
             android:textColor="#FFFFFF"
             app:backgroundTint="@null"
             android:background="@drawable/button_confirm" />
+
+        <!-- Quit Button -->
+        <Button
+            android:height="10dp"
+            android:layout_marginTop="12dp"
+            app:backgroundTint="@null"
+            android:id="@+id/btnQuit"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="❌ Quit"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_confirm"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="12dp"/>
     </LinearLayout>
 
 
@@ -363,6 +381,8 @@
                 android:shadowRadius="3"/>
         </LinearLayout>
     </ViewFlipper>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,7 +29,7 @@ public class RaceActivity extends AppCompatActivity {
 
     private SeekBar horse1, horse2, horse3;
     private ImageView horse1Gif, horse2Gif, horse3Gif;
-    private Button btnStart, btnRestart;
+    private Button btnStart, btnRestart, btnQuit;
     private TextView countdownText;
 
     private MediaPlayer bgmPlayer;
@@ -82,6 +82,7 @@ public class RaceActivity extends AppCompatActivity {
 
         btnStart = findViewById(R.id.btnStart);
         btnRestart = findViewById(R.id.btnRestart);
+        btnQuit = findViewById(R.id.btnQuit);
 
         Intent intent = getIntent();
 
@@ -129,6 +130,15 @@ public class RaceActivity extends AppCompatActivity {
             btnStart.setEnabled(true);
             btnRestart.setEnabled(false);
             countdownText.setVisibility(View.GONE);
+        });
+
+        btnQuit.setOnClickListener(v -> {
+            // Return to BetActivity with current balance (optional)
+            Intent resultIntent = new Intent(RaceActivity.this, BetActivity.class);
+            resultIntent.putExtra("winningsBalance", getIntent().getIntExtra("balance", 0));
+            setResult(RESULT_OK, resultIntent);
+
+            finish(); // Close RaceActivity
         });
 
         horse1.post(() -> {

@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class BetActivity extends AppCompatActivity {
     private TextView tvBalance, tvTile1, tvTile2, tvTile3;
-    private Button btnTopUp, btnPlay;
+    private Button btnTopUp, btnPlay, btnQuit;
     private CheckBox cbHorse1, cbHorse2, cbHorse3;
     private EditText edtHorse1, edtHorse2, edtHorse3;
 
@@ -45,6 +45,7 @@ public class BetActivity extends AppCompatActivity {
         tvTile3 = findViewById(R.id.tvTile3);
         btnTopUp = findViewById(R.id.btnTopUp);
         btnPlay = findViewById(R.id.btnPlay);
+        btnQuit = findViewById(R.id.btnQuit);
 
         cbHorse1 = findViewById(R.id.cbHorse1);
         cbHorse2 = findViewById(R.id.cbHorse2);
@@ -93,6 +94,19 @@ public class BetActivity extends AppCompatActivity {
                     }
                 }
         );
+
+        btnQuit.setOnClickListener(v -> {
+            new AlertDialog.Builder(BetActivity.this)
+                    .setTitle("Thoát ứng dụng")
+                    .setMessage("Bạn có chắc chắn muốn thoát không?")
+                    .setPositiveButton("Có", (dialog, which) -> {
+                        finishAffinity();   // đóng tất cả activity
+                        System.exit(0);     // thoát app
+                    })
+                    .setNegativeButton("Không", (dialog, which) -> dialog.dismiss())
+                    .show();
+        });
+
 
         btnPlay.setOnClickListener(v -> {
 
